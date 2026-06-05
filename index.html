@@ -746,11 +746,17 @@
       // 根据模型选择不同的端点
       let endpoint = '/api/images/generations';
       const payload = {
-        prompt: prompt,
-        n: n,
-        size: size,
-        model: model,
-      };
+  prompt: prompt,
+  n: n,
+  model: model,
+};
+
+// 解析分辨率（模力方舟可能用 width/height 而非 size）
+if (size && size.includes('x')) {
+  const [width, height] = size.split('x');
+  payload.width = parseInt(width);
+  payload.height = parseInt(height);
+}
 
       if (negativePrompt) {
         payload.negative_prompt = negativePrompt;
@@ -820,16 +826,38 @@
     function displayResults(results, model) {
       $outputSection.style.display = 'block';
 
-      results.forEach((url, index) => {
-        const imageUrl = typeof url === 'string' ? url : (url.url || '');
+      results.forEach((item, index) => {
+        let imageUrl = '';
+
+        // 兼容三种返回格式：
+        // 1. 直接的 URL 字符串
+        // 2. { url: "..." }
+        // 3. { b64_json: "..." }  base64 编码
+        if (typeof item === 'string') {
+          imageUrl = item;
+        } else if (item.url) {
+          imageUrl = item.url;
+        } else if (item.b64_json) {
+          // base64 格式：自动加上 data URI 前缀
+          imageUrl = 'data:image/png;base64,' + item.b64_json;
+        }
+
+        // 如果链接不是 http/https 开头且不是 data:，可能是纯 base64
+        if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+          imageUrl = 'data:image/png;base64,' + imageUrl;
+        }
+
         const card = document.createElement('div');
         card.className = 'output-card';
         card.innerHTML = `
-          <img src="${escapeHtml(imageUrl)}" alt="生成结果 #${index + 1}" loading="lazy"
-               onerror="this.onerror=; this.alt='图片加载失败，可能是链接已失效'; this.style.padding='48px'; this.style.textAlign='center';">
+          < img src="${escapeHtml(imageUrl)}" alt="生成结果 #${index + 1}" loading="lazy"
+               onerror="this.onerror=; this.alt='无法显示图片 / Cannot display image'; this.style.padding='48px'; this.style.textAlign='center';">
           <div class="output-card-footer">
             <span>#${index + 1}</span>
-            <a href="${escapeHtml(imageUrl)}" target="_blank" rel="noopener">🔗 原图 / Original</a>
+            ${imageUrl.startsWith('http') 
+              ? `🔗 原图 / Original`
+              : `💾 下载 / Download`
+            }
           </div>
         `;
         $outputGrid.appendChild(card);
