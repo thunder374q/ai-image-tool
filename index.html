@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Image Studio</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --danger: #f85149;
+      --success: #3fb950;
+      --warning: #d29922;
+      --radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .header-links {
+      display: flex;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .header-links a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-links a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* ===== Section ===== */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    /* ===== API Key Row ===== */
+    .key-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .key-input-row input[type="password"] {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent-hover);
+    }
+
+    .btn-danger {
+      border-color: transparent;
+      color: var(--text-secondary);
+      background: transparent;
+    }
+
+    .btn-danger:hover {
+      color: var(--danger);
+      border-color: transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 12px 24px;
+      width: 100%;
+      justify-content: center;
+      border-radius: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ===== Form Elements ===== */
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+    }
+
+    textarea::placeholder {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* ===== Resolution Selector ===== */
+    .resolution-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .resolution-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .resolution-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      background: var(--bg);
+    }
+
+    .resolution-option:hover {
+      border-color: var(--accent);
+    }
+
+    .resolution-option.active {
+      border-color: var(--accent);
+      background: rgba(88, 166, 255, 0.08);
+    }
+
+    .resolution-option input[type="radio"] {
+      display: none;
+    }
+
+    .res-ratio {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .res-pixels {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    /* ===== Secondary Controls Row ===== */
+    .controls-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .controls-row > div {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .controls-row select {
+      cursor: pointer;
+    }
+
+    /* ===== Hint Text ===== */
+    .hint {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* ===== Output Area ===== */
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .output-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .output-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .output-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .output-card-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .output-card-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== Status Messages ===== */
+    .msg {
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .msg-error {
+      background: rgba(248, 81, 73, 0.12);
+      border: 1px solid rgba(248, 81, 73, 0.3);
+      color: var(--danger);
+    }
+
+    .msg-success {
+      background: rgba(63, 185, 80, 0.12);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+      color: var(--success);
+    }
+
+    .msg-loading {
+      background: rgba(88, 166, 255, 0.1);
+      border: 1px solid rgba(88, 166, 255, 0.25);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-secondary);
+      opacity: 0.6;
+    }
+
+    .footer span {
+      margin: 0 8px;
+    }
+
+    /* ===== Collapsible ===== */
+    .collapsible summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ==================== Header ==================== -->
+    <div class="header">
+      <div class="logo-area">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">Image Studio</div>
+      </div>
+      <div class="status-badge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">准备就绪 / Ready</span>
+      </div>
+      <div class="header-links">
+        <a href="https://ai.gitee.com/serverless-api" target="_blank" rel="noopener">API 注册 / Register</a>
+      </div>
+    </div>
+
+    <!-- ==================== Section 1: API Key ==================== -->
+    <div class="section">
+      <div class="section-header">
+        <span class="step-number">1</span>
+        <span class="section-title">API Key 配置 / API Key Setup</span>
+      </div>
+      <div class="key-input-row">
+        <input type="password" id="apiKey" placeholder="在此粘贴你的 API Key / Paste your key here..." autocomplete="off">
+        <button class="btn" id="btnRemember">💾 记住 / Save</button>
+        <button class="btn btn-danger" id="btnClear">🗑 清除 / Clear</button>
+      </div>
+      <div class="hint">
+        💡 Key 保存于本地浏览器 localStorage，仅存储在你自己的设备上。<br>
+        Key is stored locally via localStorage, only on your own device.<br>
+        本工具通过当前站点的 <code>/api/*</code> 代理转发到 Cloudflare Worker，避免浏览器 CORS 限制。
+      </div>
+    </div>
+
+    <!-- ==================== Section 2: Model & Prompt ==================== -->
+    <div class="section">
+      <div class="section-header">
+        <span class="step-number">2</span>
+        <span class="section-title">模型与提示词 / Model & Prompt</span>
+      </div>
+
+      <!-- 模型选择 -->
+      <label for="modelSelect">🎯 模型 / Model</label>
+      <select id="modelSelect" style="margin-bottom: 16px;">
+        <option value="z-image">z-image（文生图 / Text-to-Image）</option>
+        <option value="edit-2511">Edit-2511（图像编辑 / Image Edit）</option>
+        <option value="wan-i2v">Wan2.2-I2V-A14B（图生视频 / Image-to-Video）</option>
+        <option value="hunyuan-video">HunyuanVideo-1.5（文生视频 / Text-to-Video）</option>
+      </select>
+
+      <!-- 图生图：参考图上传（仅编辑/视频模式显示） -->
+      <div id="refImageSection" style="display: none; margin-bottom: 16px;">
+        <label>🖼 参考图 / Reference Image</label>
+        <input type="file" id="refImage" accept="image/*" style="padding: 8px;">
+        <div class="hint" style="margin-top: 4px;">支持 JPG / PNG / WebP，建议 ≤5MB</div>
+      </div>
+
+      <!-- Prompt -->
+      <label for="prompt">✏️ 提示词 / Prompt（中/英均可 / CN&EN OK）</label>
+      <textarea id="prompt" placeholder="描述你想要的画面...&#10;Describe what you want to see...&#10;例如：a girl in a cyberpunk city at night, neon lights, masterpiece, best quality, 8k"></textarea>
+
+      <!-- Negative Prompt -->
+      <label for="negativePrompt" style="margin-top: 12px;">🚫 负向提示词 / Negative Prompt（可选 / Optional）</label>
+      <textarea id="negativePrompt" placeholder="描述你不想要的内容...&#10;lowres, bad anatomy, bad hands, text, error, watermark, ugly, deformed, blurry, worst quality" style="min-height: 80px;"></textarea>
+    </div>
+
+    <!-- ==================== Section 3: Parameters ==================== -->
+    <div class="section">
+      <div class="section-header">
+        <span class="step-number">3</span>
+        <span class="section-title">参数设置 / Parameters</span>
+      </div>
+
+      <!-- 分辨率 -->
+      <label>📐 分辨率 / Resolution</label>
+      <div class="resolution-grid" id="resolutionGrid">
+        <label class="resolution-option active" data-ratio="1:1" data-size="2048x2048">
+          <input type="radio" name="resolution" value="2048x2048" checked>
+          <span class="res-ratio">1:1</span>
+          <span class="res-pixels">2048×2048</span>
+        </label>
+        <label class="resolution-option" data-ratio="1:1" data-size="1024x1024">
+          <input type="radio" name="resolution" value="1024x1024">
+          <span class="res-ratio">1:1</span>
+          <span class="res-pixels">1024×1024</span>
+        </label>
+        <label class="resolution-option" data-ratio="3:4" data-size="768x1024">
+          <input type="radio" name="resolution" value="768x1024">
+          <span class="res-ratio">3:4</span>
+          <span class="res-pixels">768×1024</span>
+        </label>
+        <label class="resolution-option" data-ratio="4:3" data-size="1024x768">
+          <input type="radio" name="resolution" value="1024x768">
+          <span class="res-ratio">4:3</span>
+          <span class="res-pixels">1024×768</span>
+        </label>
+        <label class="resolution-option" data-ratio="16:9" data-size="1024x576">
+          <input type="radio" name="resolution" value="1024x576">
+          <span class="res-ratio">16:9</span>
+          <span class="res-pixels">1024×576</span>
+        </label>
+        <label class="resolution-option" data-ratio="9:16" data-size="576x1024">
+          <input type="radio" name="resolution" value="576x1024">
+          <span class="res-ratio">9:16</span>
+          <span class="res-pixels">576×1024</span>
+        </label>
+      </div>
+      <div class="hint" style="margin-bottom: 16px;">
+        💡 2048 更清晰但更慢更贵；n>1 会输出多张。<br>
+        Tip: 2048 is sharper but slower/more expensive; n>1 outputs multiple images.
+      </div>
+
+      <!-- 张数与种子 -->
+      <div class="controls-row">
+        <div>
+          <label for="numImages">🔢 张数 / n（1-4）</label>
+          <select id="numImages">
+            <option value="1">1 张</option>
+            <option value="2">2 张</option>
+            <option value="3">3 张</option>
+            <option value="4">4 张</option>
+          </select>
+        </div>
+        <div>
+          <label for="seed">🎲 种子 / Seed（-1 = 随机 / Random）</label>
+          <input type="text" id="seed" value="-1" placeholder="-1">
+        </div>
+      </div>
+
+      <!-- 代理地址 -->
+      <div style="margin-top: 12px;">
+        <label for="proxyUrl">🔗 代理地址 / Proxy URL</label>
+        <input type="text" id="proxyUrl" placeholder="https://你的worker名.workers.dev" value="">
+      </div>
+    </div>
+
+    <!-- ==================== Execute Button ==================== -->
+    <button class="btn btn-primary" id="btnGenerate">🚀 生成 / Generate</button>
+
+    <!-- ==================== Status ==================== -->
+    <div id="statusArea"></div>
+
+    <!-- ==================== Section 4: Output ==================== -->
+    <div class="section" id="outputSection" style="display: none;">
+      <div class="section-header">
+        <span class="section-title">📸 输出 / Output</span>
+        <button class="btn btn-danger" id="btnClearOutput" style="margin-left: auto; font-size: 12px;">🗑 清空 / Clear</button>
+      </div>
+      <div class="output-grid" id="outputGrid"></div>
+    </div>
+
+    <!-- ==================== Footer ==================== -->
+    <div class="footer">
+      Powered by Cloudflare Pages Functions proxy
+      <span>•</span>
+      请遵守所在地法律法规，切勿触碰法律界限
+      <span>•</span>
+      Please comply with your local laws and do not cross legal boundaries.
+    </div>
+
+  </div>
+
+  <script>
+    // ==================== DOM 引用 ====================
+    const $apiKey = document.getElementById('apiKey');
+    const $modelSelect = document.getElementById('modelSelect');
+    const $refImageSection = document.getElementById('refImageSection');
+    const $refImage = document.getElementById('refImage');
+    const $prompt = document.getElementById('prompt');
+    const $negativePrompt = document.getElementById('negativePrompt');
+    const $resolutionGrid = document.getElementById('resolutionGrid');
+    const $numImages = document.getElementById('numImages');
+    const $seed = document.getElementById('seed');
+    const $proxyUrl = document.getElementById('proxyUrl');
+    const $btnGenerate = document.getElementById('btnGenerate');
+    const $statusArea = document.getElementById('statusArea');
+    const $outputSection = document.getElementById('outputSection');
+    const $outputGrid = document.getElementById('outputGrid');
+    const $btnClearOutput = document.getElementById('btnClearOutput');
+    const $statusDot = document.getElementById('statusDot');
+    const $statusText = document.getElementById('statusText');
+
+    // ==================== 初始化 ====================
+    // 自动从 localStorage 加载 API Key 和代理地址
+    (function init() {
+      const savedKey = localStorage.getItem('ai_image_tool_api_key');
+      if (savedKey) {
+        $apiKey.value = savedKey;
+      }
+      const savedProxy = localStorage.getItem('ai_image_tool_proxy_url');
+      if (savedProxy) {
+        $proxyUrl.value = savedProxy;
+      }
+    })();
+
+    // ==================== API Key 操作 ====================
+    document.getElementById('btnRemember').addEventListener('click', () => {
+      const key = $apiKey.value.trim();
+      if (!key) {
+        showStatus('请先输入 API Key / Please enter a key first', 'error');
+        return;
+      }
+      localStorage.setItem('ai_image_tool_api_key', key);
+      showStatus('✅ API Key 已保存到本地 / Key saved to localStorage', 'success');
+    });
+
+    document.getElementById('btnClear').addEventListener('click', () => {
+      localStorage.removeItem('ai_image_tool_api_key');
+      $apiKey.value = '';
+      showStatus('🗑 API Key 已从本地清除 / Key cleared', 'success');
+    });
+
+    // 代理地址自动保存
+    $proxyUrl.addEventListener('blur', () => {
+      const url = $proxyUrl.value.trim();
+      if (url) {
+        localStorage.setItem('ai_image_tool_proxy_url', url);
+      }
+    });
+
+    // ==================== 模型切换 ====================
+    $modelSelect.addEventListener('change', () => {
+      const model = $modelSelect.value;
+      // 编辑模型和图生视频需要参考图
+      if (model === 'edit-2511' || model === 'wan-i2v') {
+        $refImageSection.style.display = 'block';
+      } else {
+        $refImageSection.style.display = 'none';
+        $refImage.value = '';
+      }
+    });
+
+    // ==================== 分辨率选择 ====================
+    $resolutionGrid.addEventListener('click', (e) => {
+      const option = e.target.closest('.resolution-option');
+      if (!option) return;
+      // 移除所有 active
+      document.querySelectorAll('.resolution-option').forEach(el => el.classList.remove('active'));
+      option.classList.add('active');
+      option.querySelector('input[type="radio"]').checked = true;
+    });
+
+    // ==================== 生成按钮 ====================
+    $btnGenerate.addEventListener('click', async () => {
+      // 收集参数
+      const apiKey = $apiKey.value.trim();
+      const proxyUrl = $proxyUrl.value.trim();
+      const model = $modelSelect.value;
+      const prompt = $prompt.value.trim();
+      const negativePrompt = $negativePrompt.value.trim();
+      const n = parseInt($numImages.value);
+      const seedVal = $seed.value.trim();
+      const selectedRes = document.querySelector('input[name="resolution"]:checked');
+      const size = selectedRes ? selectedRes.value : '1024x1024';
+
+      // 验证
+      if (!apiKey) { showStatus('❌ 请先输入 API Key / Please enter your API Key', 'error'); return; }
+      if (!proxyUrl) { showStatus('❌ 请先输入代理地址 / Please enter the proxy URL', 'error'); return; }
+      if (!prompt) { showStatus('❌ 请填写提示词 / Please enter a prompt', 'error'); return; }
+
+      // 编辑/图生视频模型需要参考图
+      if ((model === 'edit-2511' || model === 'wan-i2v') && !$refImage.files[0]) {
+        showStatus('❌ 当前模型需要上传参考图 / This model requires a reference image', 'error');
+        return;
+      }
+
+      // 更新状态
+      setReady(false, '生成中... / Generating...');
+      $btnGenerate.disabled = true;
+      $btnGenerate.innerHTML = '<span class="spinner" style="border-top-color:#fff;"></span> 生成中... / Generating...';
+      $statusArea.innerHTML = '';
+
+      try {
+        const results = await callAPI(proxyUrl, apiKey, model, prompt, negativePrompt, n, seedVal, size);
+        displayResults(results, model);
+        showStatus(`✅ 生成完成 / Done — 共 ${results.length} 张`, 'success');
+      } catch (err) {
+        showStatus('❌ 生成失败 / Failed: ' + err.message, 'error');
+      } finally {
+        setReady(true, '准备就绪 / Ready');
+        $btnGenerate.disabled = false;
+        $btnGenerate.innerHTML = '🚀 生成 / Generate';
+      }
+    });
+
+    // ==================== 调用 API ====================
+    async function callAPI(proxyUrl, apiKey, model, prompt, negativePrompt, n, seedVal, size) {
+      // 根据模型选择不同的端点
+      let endpoint = '/api/images/generations';
+      const payload = {
+        prompt: prompt,
+        n: n,
+        size: size,
+        model: model,
+      };
+
+      if (negativePrompt) {
+        payload.negative_prompt = negativePrompt;
+      }
+
+      if (seedVal && seedVal !== '-1') {
+        payload.seed = parseInt(seedVal);
+      }
+
+      // 如果有参考图（编辑 / 图生视频）
+      if ($refImage.files[0]) {
+        payload.image = await fileToBase64($refImage.files[0]);
+        // 如果同时有提示词，作为编辑指令
+        if (model === 'edit-2511') {
+          payload.instruction = prompt;
+        }
+      }
+
+      console.log('📤 请求参数:', { endpoint: proxyUrl + endpoint, payload: { ...payload, image: payload.image ? '[BASE64]' : undefined } });
+
+      // 去掉代理地址末尾可能存在的斜杠
+      const cleanProxyUrl = proxyUrl.replace(/\/+$/, '');
+      const resp = await fetch(cleanProxyUrl + endpoint, {
+      
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!resp.ok) {
+        const errText = await resp.text().catch(() => 'Unknown error');
+        let errMsg;
+        try {
+          errMsg = JSON.parse(errText).message || errText;
+        } catch {
+          errMsg = errText;
+        }
+        throw new Error(`HTTP ${resp.status}: ${errMsg}`);
+      }
+
+      const data = await resp.json();
+      console.log('📥 返回数据:', data);
+
+      // 兼容多种返回格式
+      if (data.data && Array.isArray(data.data)) {
+        return data.data.map(item => item.url || item.b64_json || item);
+      }
+      if (data.images && Array.isArray(data.images)) {
+        return data.images.map(item => item.url || item.b64_json || item);
+      }
+      if (Array.isArray(data)) {
+        return data.map(item => item.url || item.b64_json || item);
+      }
+      if (typeof data === 'string') {
+        return [data];
+      }
+      if (data.url) {
+        return [data.url];
+      }
+      return [data];
+    }
+
+    // ==================== 显示结果 ====================
+    function displayResults(results, model) {
+      $outputSection.style.display = 'block';
+
+      results.forEach((url, index) => {
+        const imageUrl = typeof url === 'string' ? url : (url.url || '');
+        const card = document.createElement('div');
+        card.className = 'output-card';
+        card.innerHTML = `
+          <img src="${escapeHtml(imageUrl)}" alt="生成结果 #${index + 1}" loading="lazy"
+               onerror="this.onerror=; this.alt='图片加载失败，可能是链接已失效'; this.style.padding='48px'; this.style.textAlign='center';">
+          <div class="output-card-footer">
+            <span>#${index + 1}</span>
+            <a href="${escapeHtml(imageUrl)}" target="_blank" rel="noopener">🔗 原图 / Original</a>
+          </div>
+        `;
+        $outputGrid.appendChild(card);
+      });
+    }
+
+    // ==================== 清空输出 ====================
+    $btnClearOutput.addEventListener('click', () => {
+      $outputGrid.innerHTML = '';
+      $outputSection.style.display = 'none';
+    });
+
+    // ==================== 辅助函数 ====================
+    function showStatus(msg, type) {
+      const div = document.createElement('div');
+      div.className = 'msg msg-' + type;
+      div.textContent = msg;
+      $statusArea.innerHTML = '';
+      $statusArea.appendChild(div);
+      if (type === 'success') {
+        setTimeout(() => { if ($statusArea.contains(div)) div.remove(); }, 6000);
+      }
+    }
+
+    function setReady(ready, text) {
+      $statusDot.style.background = ready ? 'var(--success)' : 'var(--warning)';
+      $statusDot.style.animation = ready ? 'pulse 2s infinite' : 'none';
+      $statusText.textContent = text;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          // 移除 data:xxx;base64, 前缀
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
