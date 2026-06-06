@@ -367,7 +367,7 @@
         let msg; try { msg = JSON.parse(txt).message || txt; } catch { msg = txt; }
         throw new Error(`HTTP ${resp.status}: ${msg}`);
       }
-      const data = await resp.json();
+      let data = await resp.json();
 
       // ---------- 新增：异步任务轮询（终极修复版） ----------
       if (data.urls && data.urls.get) {
