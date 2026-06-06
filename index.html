@@ -808,49 +808,28 @@
      }
 
      function updateUIForModel() {
-      const model = $modelSelect.value;
+        const model = $modelSelect.value;
 
-      // 参考图上传区域
-      if (modelNeedsRefImage(model)) {
-        $refImageSection.style.display = 'block';
-      } else {
-        $refImageSection.style.display = 'none';
-        $refImage.value = '';
-      }
+        // 参考图上传区域
+        if (modelNeedsRefImage(model)) {
+          $refImageSection.style.display = 'block';
+        } else {
+          $refImageSection.style.display = 'none';
+          $refImage.value = '';
+        }
 
-      // 编辑模式专用参数区
-      const editSection = document.getElementById('editParamsSection');
-      if (editSection) {
+        // 编辑模式专用参数区
         if (isEditModel(model)) {
-          editSection.style.display = 'block';
+          $editParamsSection.style.display = 'block';
           $prompt.placeholder = '描述你要的编辑效果（例如：把背景换成海边日落，保留人物）\nDescribe the edit effect (e.g. change background to sunset, keep the person)';
         } else {
-          editSection.style.display = 'none';
+          $editParamsSection.style.display = 'none';
           $prompt.placeholder = '描述你想要的画面...\nDescribe what you want to see...\n例如：a girl in a cyberpunk city at night, neon lights, masterpiece, best quality, 8k';
         }
       }
-    }
 
-       // 参考图上传区域
-       if (modelNeedsRefImage(model)) {
-         $refImageSection.style.display = 'block';
-       } else {
-         $refImageSection.style.display = 'none';
-         $refImage.value = '';
-       }
-
-       // 编辑模式专用参数区
-       if (isEditModel(model)) {
-         $editParamsSection.style.display = 'block';
-         $prompt.placeholder = '描述你要的编辑效果（例如：把背景换成海边日落，保留人物）\nDescribe the edit effect (e.g. change background to sunset, keep the person)';
-       } else {
-         $editParamsSection.style.display = 'none';
-         $prompt.placeholder = '描述你想要的画面...\nDescribe what you want to see...\n例如：a girl in a cyberpunk city at night, neon lights, masterpiece, best quality, 8k';
-       }
-     }
-
-     $modelSelect.addEventListener('change', updateUIForModel);
-     updateUIForModel();
+      $modelSelect.addEventListener('change', updateUIForModel);
+      updateUIForModel();
 
      // ==================== 分辨率选择 ====================
      $resolutionGrid.addEventListener('click', (e) => {
