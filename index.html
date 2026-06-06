@@ -389,8 +389,12 @@
               taskData = taskJson;
               break;
             }
-            if (taskJson.status === 'failed' || taskJson.error) {
-              throw new Error(taskJson.message || '任务失败');
+            // 只要出现错误信息，立即中断轮询
+            const errorMsg = taskJson.error 
+              || (taskJson.output && taskJson.output.error) 
+              || taskJson.message;
+            if (errorMsg || taskJson.status === 'failed' || taskJson.status === 'failure') {
+              throw new Error(errorMsg || '任务执行失败');
             }
           } catch (e) {
             console.warn('⚠️ 本次轮询出错:', e.message);
