@@ -18,13 +18,7 @@
       --warning: #d29922;
       --radius: 8px;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
       background: var(--bg);
@@ -35,617 +29,185 @@
       padding: 24px 16px;
       line-height: 1.5;
     }
-
-    .container {
-      width: 100%;
-      max-width: 720px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    /* ===== Header ===== */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .logo-text {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 5px 12px;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--success);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .header-links {
-      display: flex;
-      gap: 12px;
-      font-size: 13px;
-    }
-
-    .header-links a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .header-links a:hover {
-      color: var(--accent-hover);
-    }
-
-    /* ===== Section ===== */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .step-number {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--border);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .section-subtitle {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-left: auto;
-    }
-
-    /* ===== API Key Row ===== */
-    .key-input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .key-input-row input[type="password"] {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-      font-family: inherit;
-    }
-
-    .btn:hover {
-      border-color: var(--accent);
-      color: var(--accent-hover);
-    }
-
-    .btn-danger {
-      border-color: transparent;
-      color: var(--text-secondary);
-      background: transparent;
-    }
-
-    .btn-danger:hover {
-      color: var(--danger);
-      border-color: transparent;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 12px 24px;
-      width: 100%;
-      justify-content: center;
-      border-radius: 10px;
-      letter-spacing: 0.3px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35);
-      color: #fff;
-      border: none;
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* ===== Form Elements ===== */
-    textarea,
-    input[type="text"],
-    input[type="password"],
-    select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 14px;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-
-    textarea {
-      min-height: 140px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    textarea:focus,
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
-    }
-
-    textarea::placeholder {
-      color: var(--text-secondary);
-      font-size: 13px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    /* ===== Resolution Selector ===== */
-    .resolution-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 500px) {
-      .resolution-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .resolution-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 12px;
-      background: var(--bg);
-    }
-
-    .resolution-option:hover {
-      border-color: var(--accent);
-    }
-
-    .resolution-option.active {
-      border-color: var(--accent);
-      background: rgba(88, 166, 255, 0.08);
-    }
-
-    .resolution-option input[type="radio"] {
-      display: none;
-    }
-
-    .res-ratio {
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--text);
-    }
-
-    .res-pixels {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-left: auto;
-    }
-
-    /* ===== Secondary Controls Row ===== */
-    .controls-row {
-      display: flex;
-      gap: 16px;
-      align-items: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .controls-row > div {
-      flex: 1;
-      min-width: 100px;
-    }
-
-    .controls-row select {
-      cursor: pointer;
-    }
-
-    /* ===== Hint Text ===== */
-    .hint {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 8px;
-      line-height: 1.4;
-    }
-
-    /* ===== Output Area ===== */
-    .output-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-
-    .output-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .output-card img {
-      width: 100%;
-      display: block;
-    }
-
-    .output-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .output-card-footer a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .output-card-footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* ===== Status Messages ===== */
-    .msg {
-      padding: 10px 14px;
-      border-radius: var(--radius);
-      font-size: 13px;
-      margin-top: 10px;
-    }
-
-    .msg-error {
-      background: rgba(248, 81, 73, 0.12);
-      border: 1px solid rgba(248, 81, 73, 0.3);
-      color: var(--danger);
-    }
-
-    .msg-success {
-      background: rgba(63, 185, 80, 0.12);
-      border: 1px solid rgba(63, 185, 80, 0.3);
-      color: var(--success);
-    }
-
-    .msg-loading {
-      background: rgba(88, 166, 255, 0.1);
-      border: 1px solid rgba(88, 166, 255, 0.25);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ===== Footer ===== */
-    .footer {
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-secondary);
-      opacity: 0.6;
-    }
-
-    .footer span {
-      margin: 0 8px;
-    }
-
-    /* ===== Collapsible ===== */
-    .collapsible summary {
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
+    .container { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 24px; }
+    .header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .logo-area { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; font-weight: 700; }
+    .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .header-links { display: flex; gap: 12px; font-size: 13px; }
+    .header-links a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    .header-links a:hover { color: var(--accent-hover); }
+    .section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .step-number { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--border); font-size: 12px; font-weight: 700; color: var(--text-secondary); flex-shrink: 0; }
+    .section-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .key-input-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .key-input-row input[type="password"] { flex: 1; min-width: 200px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: inherit; }
+    .btn:hover { border-color: var(--accent); color: var(--accent-hover); }
+    .btn-danger { border-color: transparent; color: var(--text-secondary); background: transparent; }
+    .btn-danger:hover { color: var(--danger); border-color: transparent; }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: #fff; font-weight: 600; font-size: 15px; padding: 12px 24px; width: 100%; justify-content: center; border-radius: 10px; letter-spacing: 0.3px; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35); color: #fff; border: none; }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+    textarea, input[type="text"], input[type="password"], input[type="number"], select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+    textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+    textarea:focus, input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+    textarea::placeholder { color: var(--text-secondary); font-size: 13px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+    .file-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .file-input-row input[type="file"] { flex: 1; padding: 8px; }
+    .file-name { font-size: 12px; color: var(--text-secondary); white-space: nowrap; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    .checkbox-group label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; color: var(--text); margin-bottom: 0; }
+    .checkbox-group input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .resolution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    @media (max-width: 500px) { .resolution-grid { grid-template-columns: repeat(2, 1fr); } }
+    .resolution-option { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.2s; font-size: 12px; background: var(--bg); }
+    .resolution-option:hover { border-color: var(--accent); }
+    .resolution-option.active { border-color: var(--accent); background: rgba(88, 166, 255, 0.08); }
+    .resolution-option input[type="radio"] { display: none; }
+    .res-ratio { font-weight: 600; font-size: 13px; color: var(--text); }
+    .res-pixels { font-size: 11px; color: var(--text-secondary); margin-left: auto; }
+    .controls-row { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+    .controls-row > div { flex: 1; min-width: 100px; }
+    .controls-row select { cursor: pointer; }
+    .hint { font-size: 11px; color: var(--text-secondary); margin-top: 8px; line-height: 1.4; }
+    .output-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .output-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .output-card img { width: 100%; display: block; }
+    .output-card-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; font-size: 12px; color: var(--text-secondary); }
+    .output-card-footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .output-card-footer a:hover { text-decoration: underline; }
+    .msg { padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-top: 10px; }
+    .msg-error { background: rgba(248, 81, 73, 0.12); border: 1px solid rgba(248, 81, 73, 0.3); color: var(--danger); }
+    .msg-success { background: rgba(63, 185, 80, 0.12); border: 1px solid rgba(63, 185, 80, 0.3); color: var(--success); }
+    .msg-loading { background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.25); color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer { text-align: center; font-size: 11px; color: var(--text-secondary); opacity: 0.6; }
+    .footer span { margin: 0 8px; }
+    .collapsible summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 12px; }
   </style>
 </head>
 <body>
   <div class="container">
-
-    <!-- ==================== Header ==================== -->
     <div class="header">
-      <div class="logo-area">
-        <div class="logo-icon">M</div>
-        <div class="logo-text">Image Studio</div>
-      </div>
-      <div class="status-badge">
-        <span class="status-dot" id="statusDot"></span>
-        <span id="statusText">准备就绪 / Ready</span>
-      </div>
-      <div class="header-links">
-        <a href="https://moark.com/serverless-api" target="_blank" rel="noopener">API 注册 / Register</a>
-      </div>
+      <div class="logo-area"><div class="logo-icon">M</div><div class="logo-text">Image Studio</div></div>
+      <div class="status-badge"><span class="status-dot" id="statusDot"></span><span id="statusText">准备就绪 / Ready</span></div>
+      <div class="header-links"><a href="https://moark.com/serverless-api" target="_blank" rel="noopener">API 注册 / Register</a></div>
     </div>
-
-    <!-- ==================== Section 1: API Key ==================== -->
     <div class="section">
-      <div class="section-header">
-        <span class="step-number">1</span>
-        <span class="section-title">API Key 配置 / API Key Setup</span>
-      </div>
+      <div class="section-header"><span class="step-number">1</span><span class="section-title">API Key 配置 / API Key Setup</span></div>
       <div class="key-input-row">
         <input type="password" id="apiKey" placeholder="在此粘贴你的 API Key / Paste your key here..." autocomplete="off">
         <button class="btn" id="btnRemember">💾 记住 / Save</button>
         <button class="btn btn-danger" id="btnClear">🗑 清除 / Clear</button>
       </div>
-      <div class="hint">
-        💡 Key 保存于本地浏览器 localStorage，仅存储在你自己的设备上。<br>
-        Key is stored locally via localStorage, only on your own device.<br>
-        本工具通过当前站点的 <code>/api/*</code> 代理转发到 Cloudflare Worker，避免浏览器 CORS 限制。
-      </div>
+      <div class="hint">💡 Key 保存于本地浏览器 localStorage，仅存储在你自己的设备上。<br>Key is stored locally via localStorage, only on your own device.<br>本工具通过当前站点的 <code>/api/*</code> 代理转发到 Cloudflare Worker，避免浏览器 CORS 限制。</div>
     </div>
-
-    <!-- ==================== Section 2: Model & Prompt ==================== -->
     <div class="section">
-      <div class="section-header">
-        <span class="step-number">2</span>
-        <span class="section-title">模型与提示词 / Model &amp; Prompt</span>
-      </div>
-
-      <!-- 模型选择 -->
+      <div class="section-header"><span class="step-number">2</span><span class="section-title">模型与提示词 / Model &amp; Prompt</span></div>
       <label for="modelSelect">🎯 模型 / Model</label>
       <select id="modelSelect" style="margin-bottom: 16px;">
-  <optgroup label="🖼️ 写实图像生成">
-    <option value="FLUX.1-dev">FLUX.1-dev（写实摄影 / Photorealistic）</option>
-    <option value="FLUX.1-schnell">FLUX.1-schnell（快速写实）</option>
-    <option value="stable-diffusion-3.5-large-turbo">SD3.5 Large Turbo（写实增强）</option>
-    <option value="stable-diffusion-xl-base-1.0">SDXL（通用高质量）</option>
-    <option value="Qwen-Image">Qwen-Image（阿里通义）</option>
-    <option value="HiDream-I1-Full">HiDream-I1-Full（新一代国产）</option>
-    <option value="Kolors">Kolors（中文理解好）</option>
-    <option value="DreamO">DreamO（创意生成）</option>
-    <option value="CogView4_6B">CogView4（智谱图像）</option>
-    <option value="z-image">z-image（轻量）</option>
-    <option value="z-image-turbo">z-image-turbo（轻量加速）</option>
-  </optgroup>
-  <optgroup label="✂️ 图像编辑">
-    <option value="Qwen-Image-Edit-2511">Qwen-Image-Edit-2511（图像编辑）</option>
-    <option value="Qwen-Image-Edit">Qwen-Image-Edit（图像编辑）</option>
-    <option value="LongCat-Image-Edit">LongCat-Image-Edit（图像编辑）</option>
-    <option value="FLUX.1-Kontext-dev">FLUX.1-Kontext-dev（上下文编辑）</option>
-  </optgroup>
-  <optgroup label="🔍 图像放大">
-  <option value="Real-ESRGAN">Real-ESRGAN（2倍超分）</option>
-</optgroup>
-  <optgroup label="🎬 图生视频">
-    <option value="stable-diffusion-3-medium">SD3 Medium（图生视频）</option>
-    <option value="SeedVR2-3B">SeedVR2-3B（图生视频）</option>
-  </optgroup>
-</select>
-
-      <!-- 图生图：参考图上传（仅编辑/视频模式显示） -->
+        <optgroup label="🖼 写实图像生成">
+          <option value="FLUX.1-dev">FLUX.1-dev（写实摄影 / Photorealistic）</option>
+          <option value="FLUX.1-schnell">FLUX.1-schnell（快速写实）</option>
+          <option value="stable-diffusion-3.5-large-turbo">SD3.5 Large Turbo（写实增强）</option>
+          <option value="stable-diffusion-xl-base-1.0">SDXL（通用高质量）</option>
+          <option value="Qwen-Image">Qwen-Image（阿里通义）</option>
+          <option value="HiDream-I1-Full">HiDream-I1-Full（新一代国产）</option>
+          <option value="Kolors">Kolors（中文理解好）</option>
+          <option value="DreamO">DreamO（创意生成）</option>
+          <option value="CogView4_6B">CogView4（智谱图像）</option>
+          <option value="z-image">z-image（轻量）</option>
+          <option value="z-image-turbo">z-image-turbo（轻量加速）</option>
+        </optgroup>
+        <optgroup label="✂ 图像编辑">
+          <option value="Qwen-Image-Edit-2511">Qwen-Image-Edit-2511（图像编辑）</option>
+          <option value="Qwen-Image-Edit">Qwen-Image-Edit（图像编辑）</option>
+          <option value="LongCat-Image-Edit">LongCat-Image-Edit（图像编辑）</option>
+          <option value="FLUX.1-Kontext-dev">FLUX.1-Kontext-dev（上下文编辑）</option>
+        </optgroup>
+        <optgroup label="🔍 图像放大">
+          <option value="Real-ESRGAN">Real-ESRGAN（2倍超分）</option>
+        </optgroup>
+        <optgroup label="🎬 图生视频">
+          <option value="stable-diffusion-3-medium">SD3 Medium（图生视频）</option>
+          <option value="SeedVR2-3B">SeedVR2-3B（图生视频）</option>
+        </optgroup>
+      </select>
       <div id="refImageSection" style="display: none; margin-bottom: 16px;">
         <label>🖼 参考图 / Reference Image</label>
         <input type="file" id="refImage" accept="image/*" style="padding: 8px;">
         <div class="hint" style="margin-top: 4px;">支持 JPG / PNG / WebP，建议 ≤5MB</div>
       </div>
-
-      <!-- Prompt -->
+      <!-- 编辑模式专用参数 -->
+      <div id="editParamsSection" style="display: none;">
+        <label style="margin-top: 0;">🖼 图1 / Image 1</label>
+        <div class="file-input-row"><input type="file" id="editImage1" accept="image/*"><span id="editImage1Name" class="file-name">未选择任何文件</span></div>
+        <label>🖼 图2 / Image 2（可选 / Optional）</label>
+        <div class="file-input-row"><input type="file" id="editImage2" accept="image/*"><span id="editImage2Name" class="file-name">未选择任何文件</span></div>
+        <label>📋 任务类型 / Task Types（可多选 / Multi-select）</label>
+        <div id="taskTypes" class="checkbox-group">
+          <label><input type="checkbox" value="id" checked> id</label>
+          <label><input type="checkbox" value="style" checked> style</label>
+          <label><input type="checkbox" value="pose"> pose</label>
+          <label><input type="checkbox" value="layout"> layout</label>
+          <label><input type="checkbox" value="color"> color</label>
+          <label><input type="checkbox" value="background"> background</label>
+        </div>
+        <div style="margin-bottom: 12px;"><label for="steps">🔢 steps / num_inference_steps（1-50）</label><input type="number" id="steps" value="4" min="1" max="50"></div>
+        <div style="margin-bottom: 12px;"><label for="guidanceScale">🎚 guidance_scale（0-10）</label><input type="number" id="guidanceScale" value="1" min="0" max="10" step="0.1"></div>
+        <div class="hint">💡 Notes: Higher steps = slower but more detail; higher guidance = follows prompt more strongly.</div>
+      </div>
       <label for="prompt">✏️ 提示词 / Prompt（中/英均可 / CN&amp;EN OK）</label>
       <textarea id="prompt" placeholder="描述你想要的画面...&#10;Describe what you want to see...&#10;例如：a girl in a cyberpunk city at night, neon lights, masterpiece, best quality, 8k"></textarea>
-
-      <!-- Negative Prompt -->
       <label for="negativePrompt" style="margin-top: 12px;">🚫 负向提示词 / Negative Prompt（可选 / Optional）</label>
       <textarea id="negativePrompt" placeholder="描述你不想要的内容...&#10;lowres, bad anatomy, bad hands, text, error, watermark, ugly, deformed, blurry, worst quality" style="min-height: 80px;"></textarea>
     </div>
-
-    <!-- ==================== Section 3: Parameters ==================== -->
     <div class="section">
-      <div class="section-header">
-        <span class="step-number">3</span>
-        <span class="section-title">参数设置 / Parameters</span>
-      </div>
-
-      <!-- 分辨率 -->
+      <div class="section-header"><span class="step-number">3</span><span class="section-title">参数设置 / Parameters</span></div>
       <label>📐 分辨率 / Resolution</label>
       <div class="resolution-grid" id="resolutionGrid">
-        <label class="resolution-option active" data-ratio="1:1" data-size="2048x2048">
-          <input type="radio" name="resolution" value="2048x2048" checked>
-          <span class="res-ratio">1:1</span>
-          <span class="res-pixels">2048×2048</span>
-        </label>
-        <label class="resolution-option" data-ratio="1:1" data-size="1024x1024">
-          <input type="radio" name="resolution" value="1024x1024">
-          <span class="res-ratio">1:1</span>
-          <span class="res-pixels">1024×1024</span>
-        </label>
-        <label class="resolution-option" data-ratio="3:4" data-size="768x1024">
-          <input type="radio" name="resolution" value="768x1024">
-          <span class="res-ratio">3:4</span>
-          <span class="res-pixels">768×1024</span>
-        </label>
-        <label class="resolution-option" data-ratio="4:3" data-size="1024x768">
-          <input type="radio" name="resolution" value="1024x768">
-          <span class="res-ratio">4:3</span>
-          <span class="res-pixels">1024×768</span>
-        </label>
-        <label class="resolution-option" data-ratio="16:9" data-size="1024x576">
-          <input type="radio" name="resolution" value="1024x576">
-          <span class="res-ratio">16:9</span>
-          <span class="res-pixels">1024×576</span>
-        </label>
-        <label class="resolution-option" data-ratio="9:16" data-size="576x1024">
-          <input type="radio" name="resolution" value="576x1024">
-          <span class="res-ratio">9:16</span>
-          <span class="res-pixels">576×1024</span>
-        </label>
+        <label class="resolution-option active" data-ratio="1:1" data-size="2048x2048"><input type="radio" name="resolution" value="2048x2048" checked><span class="res-ratio">1:1</span><span class="res-pixels">2048×2048</span></label>
+        <label class="resolution-option" data-ratio="1:1" data-size="1024x1024"><input type="radio" name="resolution" value="1024x1024"><span class="res-ratio">1:1</span><span class="res-pixels">1024×1024</span></label>
+        <label class="resolution-option" data-ratio="3:4" data-size="768x1024"><input type="radio" name="resolution" value="768x1024"><span class="res-ratio">3:4</span><span class="res-pixels">768×1024</span></label>
+        <label class="resolution-option" data-ratio="4:3" data-size="1024x768"><input type="radio" name="resolution" value="1024x768"><span class="res-ratio">4:3</span><span class="res-pixels">1024×768</span></label>
+        <label class="resolution-option" data-ratio="16:9" data-size="1024x576"><input type="radio" name="resolution" value="1024x576"><span class="res-ratio">16:9</span><span class="res-pixels">1024×576</span></label>
+        <label class="resolution-option" data-ratio="9:16" data-size="576x1024"><input type="radio" name="resolution" value="576x1024"><span class="res-ratio">9:16</span><span class="res-pixels">576×1024</span></label>
       </div>
-      <div class="hint" style="margin-bottom: 16px;">
-        💡 2048 更清晰但更慢更贵；n&gt;1 会输出多张。<br>
-        Tip: 2048 is sharper but slower/more expensive; n&gt;1 outputs multiple images.
-      </div>
-
-      <!-- 张数与种子 -->
+      <div class="hint" style="margin-bottom: 16px;">💡 2048 更清晰但更慢更贵；n&gt;1 会输出多张。<br>Tip: 2048 is sharper but slower/more expensive; n&gt;1 outputs multiple images.</div>
       <div class="controls-row">
-        <div>
-          <label for="numImages">🔢 张数 / n（1-4）</label>
-          <select id="numImages">
-            <option value="1">1 张</option>
-            <option value="2">2 张</option>
-            <option value="3">3 张</option>
-            <option value="4">4 张</option>
-          </select>
-        </div>
-        <div>
-          <label for="seed">🎲 种子 / Seed（-1 = 随机 / Random）</label>
-          <input type="text" id="seed" value="-1" placeholder="-1">
-        </div>
+        <div><label for="numImages">🔢 张数 / n（1-4）</label><select id="numImages"><option value="1">1 张</option><option value="2">2 张</option><option value="3">3 张</option><option value="4">4 张</option></select></div>
+        <div><label for="seed">🎲 种子 / Seed（-1 = 随机 / Random）</label><input type="text" id="seed" value="-1" placeholder="-1"></div>
       </div>
-
-      <!-- 代理地址 -->
-      <div style="margin-top: 12px;">
-        <label for="proxyUrl">🔗 代理地址 / Proxy URL</label>
-        <input type="text" id="proxyUrl" placeholder="https://你的worker名.workers.dev" value="">
-      </div>
+      <div style="margin-top: 12px;"><label for="proxyUrl">🔗 代理地址 / Proxy URL</label><input type="text" id="proxyUrl" placeholder="https://你的worker名.workers.dev" value=""></div>
     </div>
-
-    <!-- ==================== Execute Button ==================== -->
     <button class="btn btn-primary" id="btnGenerate">🚀 生成 / Generate</button>
-
-    <!-- ==================== Status ==================== -->
     <div id="statusArea"></div>
-
-    <!-- ==================== Section 4: Output ==================== -->
     <div class="section" id="outputSection" style="display: none;">
-      <div class="section-header">
-        <span class="section-title">📸 输出 / Output</span>
-        <button class="btn btn-danger" id="btnClearOutput" style="margin-left: auto; font-size: 12px;">🗑 清空 / Clear</button>
-      </div>
+      <div class="section-header"><span class="section-title">📸 输出 / Output</span><button class="btn btn-danger" id="btnClearOutput" style="margin-left: auto; font-size: 12px;">🗑 清空 / Clear</button></div>
       <div class="output-grid" id="outputGrid"></div>
     </div>
-
-    <!-- ==================== Footer ==================== -->
-    <div class="footer">
-      Powered by Cloudflare Pages Functions proxy
-      <span>•</span>
-      请遵守所在地法律法规，切勿触碰法律界限
-      <span>•</span>
-      Please comply with your local laws and do not cross legal boundaries.
-    </div>
-
+    <div class="footer">Powered by Cloudflare Pages Functions proxy<span>•</span>请遵守所在地法律法规，切勿触碰法律界限<span>•</span>Please comply with your local laws and do not cross legal boundaries.</div>
   </div>
 
   <script>
-    // ==================== DOM 引用 ====================
+    // ==================== DOM ====================
     const $apiKey = document.getElementById('apiKey');
     const $modelSelect = document.getElementById('modelSelect');
     const $refImageSection = document.getElementById('refImageSection');
     const $refImage = document.getElementById('refImage');
+    const $editParamsSection = document.getElementById('editParamsSection');
+    const $editImage1 = document.getElementById('editImage1');
+    const $editImage2 = document.getElementById('editImage2');
+    const $taskTypes = document.getElementById('taskTypes');
+    const $steps = document.getElementById('steps');
+    const $guidanceScale = document.getElementById('guidanceScale');
     const $prompt = document.getElementById('prompt');
     const $negativePrompt = document.getElementById('negativePrompt');
     const $resolutionGrid = document.getElementById('resolutionGrid');
@@ -663,102 +225,92 @@
     // ==================== 初始化 ====================
     (function init() {
       const savedKey = localStorage.getItem('ai_image_tool_api_key');
-      if (savedKey) {
-        $apiKey.value = savedKey;
-      }
+      if (savedKey) $apiKey.value = savedKey;
       const savedProxy = localStorage.getItem('ai_image_tool_proxy_url');
-      if (savedProxy) {
-        $proxyUrl.value = savedProxy;
-      }
+      if (savedProxy) $proxyUrl.value = savedProxy;
     })();
-
-    // ==================== API Key 操作 ====================
     document.getElementById('btnRemember').addEventListener('click', () => {
-      const key = $apiKey.value.trim();
-      if (!key) {
-        showStatus('请先输入 API Key / Please enter a key first', 'error');
-        return;
-      }
-      localStorage.setItem('ai_image_tool_api_key', key);
-      showStatus('✅ API Key 已保存到本地 / Key saved to localStorage', 'success');
+      const k = $apiKey.value.trim();
+      if (!k) { showStatus('请先输入 API Key', 'error'); return; }
+      localStorage.setItem('ai_image_tool_api_key', k);
+      showStatus('✅ API Key 已保存', 'success');
     });
-
     document.getElementById('btnClear').addEventListener('click', () => {
       localStorage.removeItem('ai_image_tool_api_key');
       $apiKey.value = '';
-      showStatus('🗑 API Key 已从本地清除 / Key cleared', 'success');
+      showStatus('🗑 API Key 已清除', 'success');
     });
-
-    // 代理地址自动保存
     $proxyUrl.addEventListener('blur', () => {
-      const url = $proxyUrl.value.trim();
-      if (url) {
-        localStorage.setItem('ai_image_tool_proxy_url', url);
-      }
+      const u = $proxyUrl.value.trim();
+      if (u) localStorage.setItem('ai_image_tool_proxy_url', u);
+    });
+    $editImage1.addEventListener('change', function () {
+      document.getElementById('editImage1Name').textContent = this.files[0] ? this.files[0].name : '未选择任何文件';
+    });
+    $editImage2.addEventListener('change', function () {
+      document.getElementById('editImage2Name').textContent = this.files[0] ? this.files[0].name : '未选择任何文件';
     });
 
-    // ==================== 模型切换 ====================
-    // ==================== 模型切换时，自动显示/隐藏参考图区域 ====================
-    function modelNeedsRefImage(modelValue) {
-      const lower = modelValue.toLowerCase();
-      // 凡是名称里包含 edit、i2v、video、kontext、esrgan 等的，都需要参考图
-      return lower.includes('edit') ||
-             lower.includes('i2v') ||
-             lower.includes('video') ||
-             lower.includes('kontext') ||
-             lower.includes('esrgan');
+    // ==================== 模型判断 ====================
+    function modelNeedsRefImage(m) {
+      const l = m.toLowerCase();
+      return l.includes('edit') || l.includes('i2v') || l.includes('video') || l.includes('kontext') || l.includes('esrgan');
     }
-
-    function updateRefImageVisibility() {
-      if (modelNeedsRefImage($modelSelect.value)) {
+    function isEditModel(m) {
+      const l = m.toLowerCase();
+      return l.includes('edit') || l.includes('kontext');
+    }
+    function updateUIForModel() {
+      const m = $modelSelect.value;
+      if (modelNeedsRefImage(m)) {
         $refImageSection.style.display = 'block';
       } else {
         $refImageSection.style.display = 'none';
         $refImage.value = '';
       }
+      if (isEditModel(m)) {
+        $editParamsSection.style.display = 'block';
+        $prompt.placeholder = '描述你要的编辑效果（例如：把背景换成海边日落，保留人物）\nDescribe the edit effect (e.g. change background to sunset, keep the person)';
+      } else {
+        $editParamsSection.style.display = 'none';
+        $prompt.placeholder = '描述你想要的画面...\nDescribe what you want to see...\n例如：a girl in a cyberpunk city at night, neon lights, masterpiece, best quality, 8k';
+      }
     }
+    $modelSelect.addEventListener('change', updateUIForModel);
+    updateUIForModel();
 
-    $modelSelect.addEventListener('change', updateRefImageVisibility);
-    // 页面刚加载完也执行一次，以防默认选中了需要参考图的模型
-    updateRefImageVisibility();
-
-    // ==================== 分辨率选择 ====================
+    // ==================== 分辨率 ====================
     $resolutionGrid.addEventListener('click', (e) => {
-      const option = e.target.closest('.resolution-option');
-      if (!option) return;
+      const opt = e.target.closest('.resolution-option');
+      if (!opt) return;
       document.querySelectorAll('.resolution-option').forEach(el => el.classList.remove('active'));
-      option.classList.add('active');
-      option.querySelector('input[type="radio"]').checked = true;
+      opt.classList.add('active');
+      opt.querySelector('input[type="radio"]').checked = true;
     });
 
-    // ==================== 生成按钮 ====================
+    // ==================== 生成 ====================
     $btnGenerate.addEventListener('click', async () => {
       const apiKey = $apiKey.value.trim();
-      const proxyUrl = $proxyUrl.value.trim();
+      const proxy = $proxyUrl.value.trim();
       const model = $modelSelect.value;
       const prompt = $prompt.value.trim();
-      const negativePrompt = $negativePrompt.value.trim();
+      const np = $negativePrompt.value.trim();
       const n = parseInt($numImages.value);
       const seedVal = $seed.value.trim();
-      const selectedRes = document.querySelector('input[name="resolution"]:checked');
-      const size = selectedRes ? selectedRes.value : '1024x1024';
-
-      if (!apiKey) { showStatus('❌ 请先输入 API Key / Please enter your API Key', 'error'); return; }
-      if (!proxyUrl) { showStatus('❌ 请先输入代理地址 / Please enter the proxy URL', 'error'); return; }
-      if (!prompt) { showStatus('❌ 请填写提示词 / Please enter a prompt', 'error'); return; }
-
-      if ((model === 'edit-2511' || model === 'wan-i2v') && !$refImage.files[0]) {
-        showStatus('❌ 当前模型需要上传参考图 / This model requires a reference image', 'error');
-        return;
+      const res = document.querySelector('input[name="resolution"]:checked');
+      const size = res ? res.value : '1024x1024';
+      if (!apiKey) { showStatus('❌ 请先输入 API Key', 'error'); return; }
+      if (!proxy) { showStatus('❌ 请先输入代理地址', 'error'); return; }
+      if (!prompt && !isEditModel(model)) { showStatus('❌ 请填写提示词', 'error'); return; }
+      if (modelNeedsRefImage(model) && !($editImage1.files[0] || $refImage.files[0])) {
+        showStatus('❌ 当前模型需要上传参考图', 'error'); return;
       }
-
       setReady(false, '生成中... / Generating...');
       $btnGenerate.disabled = true;
-      $btnGenerate.innerHTML = '<span class="spinner" style="border-top-color:#fff;"></span> 生成中... / Generating...';
+      $btnGenerate.innerHTML = '<span class="spinner" style="border-top-color:#fff;"></span> 生成中...';
       $statusArea.innerHTML = '';
-
       try {
-        const results = await callAPI(proxyUrl, apiKey, model, prompt, negativePrompt, n, seedVal, size);
+        const results = await callAPI(proxy, apiKey, model, prompt, np, n, seedVal, size);
         displayResults(results);
         showStatus(`✅ 生成完成 / Done — 共 ${results.length} 张`, 'success');
       } catch (err) {
@@ -770,200 +322,112 @@
       }
     });
 
-    // ==================== 调用 API ====================
+    // ==================== API 调用 ====================
     async function callAPI(proxyUrl, apiKey, model, prompt, negativePrompt, n, seedVal, size) {
-      const cleanProxy = proxyUrl.replace(/\/+$/, '');
-      const endpoint = '/api/images/generations';
-
-      const payload = {
-        prompt: prompt,
-        n: n,
-        model: model,
-      };
-
-      // 根据模力方舟实际需求，使用 width/height 而非 size
-      if (size && size.includes('x')) {
-        const [width, height] = size.split('x');
-        payload.width = parseInt(width);
-        payload.height = parseInt(height);
-      }
-
-      if (negativePrompt) {
-        payload.negative_prompt = negativePrompt;
-      }
-
-      if (seedVal && seedVal !== '-1') {
-        payload.seed = parseInt(seedVal);
-      }
-
-      if ($refImage.files[0]) {
-        payload.image = await fileToBase64($refImage.files[0]);
-        if (model === 'edit-2511') {
-          payload.instruction = prompt;
+      const clean = proxyUrl.replace(/\/+$/, '');
+      const editMode = isEditModel(model);
+      const endpoint = editMode ? '/api/async/images/edits' : '/api/images/generations';
+      const formData = new FormData();
+      formData.append('model', model);
+      formData.append('n', n);
+      if (seedVal && seedVal !== '-1') formData.append('seed', seedVal);
+      if (negativePrompt) formData.append('negative_prompt', negativePrompt);
+      if (editMode) {
+        formData.append('num_inference_steps', $steps.value || '4');
+        formData.append('guidance_scale', $guidanceScale.value || '1');
+        $taskTypes.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => formData.append('task_types', cb.value));
+      } else {
+        if (size && size.includes('x')) {
+          const [w, h] = size.split('x');
+          formData.append('width', Math.min(parseInt(w), 1024));
+          formData.append('height', Math.min(parseInt(h), 1024));
         }
       }
+      if (prompt) formData.append(editMode ? 'instruction' : 'prompt', prompt);
+      const refFile = $editImage1.files[0] || $refImage.files[0];
+      if (refFile) formData.append('image', refFile);
+      if ($editImage2.files[0]) formData.append('image2', $editImage2.files[0]);
 
-      console.log('📤 请求参数:', { url: cleanProxy + endpoint, payload: { ...payload, image: payload.image ? '[BASE64]' : undefined } });
-
-      const resp = await fetch(cleanProxy + endpoint, {
+      console.log('📤 请求:', clean + endpoint);
+      const resp = await fetch(clean + endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey,
-        },
-        body: JSON.stringify(payload),
+        headers: { 'Authorization': 'Bearer ' + apiKey },
+        body: formData,
       });
-
       if (!resp.ok) {
-        const errText = await resp.text().catch(() => 'Unknown error');
-        let errMsg;
-        try {
-          errMsg = JSON.parse(errText).message || errText;
-        } catch {
-          errMsg = errText;
-        }
-        throw new Error(`HTTP ${resp.status}: ${errMsg}`);
+        const txt = await resp.text().catch(() => 'Unknown error');
+        let msg; try { msg = JSON.parse(txt).message || txt; } catch { msg = txt; }
+        throw new Error(`HTTP ${resp.status}: ${msg}`);
       }
-
       const data = await resp.json();
-      console.log('📥 返回数据:', data);
-      console.log('📥 返回数据中的 data 字段:', data.data);
-
-      // 兼容多种返回格式
-      if (data.data && Array.isArray(data.data)) {
-        return data.data.map(item => {
-          if (typeof item === 'string') return { url: item };
-          if (item.url) return { url: item.url };
-          if (item.b64_json) return { b64_json: item.b64_json };
-          return item;
-        });
-      }
-      if (data.images && Array.isArray(data.images)) {
-        return data.images.map(item => {
-          if (typeof item === 'string') return { url: item };
-          if (item.url) return { url: item.url };
-          if (item.b64_json) return { b64_json: item.b64_json };
-          return item;
-        });
-      }
-      if (Array.isArray(data)) {
-        return data.map(item => {
-          if (typeof item === 'string') return { url: item };
-          if (item.url) return { url: item.url };
-          if (item.b64_json) return { b64_json: item.b64_json };
-          return item;
-        });
-      }
-      // 如果直接返回了 url 或 b64_json
+      console.log('📥 返回:', data);
+      if (data.data && Array.isArray(data.data)) return data.data.map(i => i.url ? { url: i.url } : i.b64_json ? { b64_json: i.b64_json } : i);
+      if (data.images && Array.isArray(data.images)) return data.images.map(i => typeof i === 'string' ? { url: i } : i);
+      if (Array.isArray(data)) return data.map(i => typeof i === 'string' ? { url: i } : i);
       if (data.url) return [{ url: data.url }];
       if (data.b64_json) return [{ b64_json: data.b64_json }];
+      if (data.output?.file_url) return [{ url: data.output.file_url }];
       return [data];
     }
 
-    // ==================== 显示结果（使用 Blob URL 避免 ERR_BLOCKED） ====================
+    // ==================== 结果 ====================
     function displayResults(results) {
       $outputSection.style.display = 'block';
-
-      results.forEach((item, index) => {
+      results.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'output-card';
-
-        // 确定图片数据
-        let imageUrl = null;
-        let blobUrl = null;
-
-        // 优先处理 base64
+        let blobUrl = null, imageUrl = null;
         if (item.b64_json) {
-          const byteString = atob(item.b64_json);
-          const mimeType = 'image/png'; // 可改 image/jpeg
-          const ab = new ArrayBuffer(byteString.length);
+          const bs = atob(item.b64_json);
+          const ab = new ArrayBuffer(bs.length);
           const ia = new Uint8Array(ab);
-          for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-          }
-          const blob = new Blob([ab], { type: mimeType });
-          blobUrl = URL.createObjectURL(blob);
+          for (let i = 0; i < bs.length; i++) ia[i] = bs.charCodeAt(i);
+          blobUrl = URL.createObjectURL(new Blob([ab], { type: 'image/png' }));
         } else if (item.url && item.url.startsWith('http')) {
           imageUrl = item.url;
         } else if (item.url) {
-          // 可能是纯 base64 字符串
-          const b64 = item.url.replace(/^data:image\/\w+;base64,/, '');
-          const byteString = atob(b64);
-          const mimeType = 'image/png';
-          const ab = new ArrayBuffer(byteString.length);
-          const ia = new Uint8Array(ab);
-          for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-          }
-          const blob = new Blob([ab], { type: mimeType });
-          blobUrl = URL.createObjectURL(blob);
+          try {
+            const b64 = item.url.replace(/^data:image\/\w+;base64,/, '');
+            const bs = atob(b64);
+            const ab = new ArrayBuffer(bs.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < bs.length; i++) ia[i] = bs.charCodeAt(i);
+            blobUrl = URL.createObjectURL(new Blob([ab], { type: 'image/png' }));
+          } catch { imageUrl = item.url; }
         }
-
         const img = document.createElement('img');
-        img.alt = '生成结果 #' + (index + 1);
+        img.alt = '生成结果 #' + (idx + 1);
         img.loading = 'lazy';
         img.src = blobUrl || imageUrl || '';
-
         const footer = document.createElement('div');
         footer.className = 'output-card-footer';
-
         const label = document.createElement('span');
-        label.textContent = '#' + (index + 1);
-
-        const downloadLink = document.createElement('a');
-        if (blobUrl) {
-          downloadLink.href = blobUrl;
-          downloadLink.download = 'ai-image-' + (index + 1) + '.png';
-          downloadLink.textContent = '💾 下载 / Download';
-        } else if (imageUrl) {
-          downloadLink.href = imageUrl;
-          downloadLink.target = '_blank';
-          downloadLink.rel = 'noopener';
-          downloadLink.textContent = '🔗 原图 / Original';
-        }
-
+        label.textContent = '#' + (idx + 1);
+        const a = document.createElement('a');
+        a.href = blobUrl || imageUrl || '#';
+        a.download = 'ai-image-' + (idx + 1) + '.png';
+        a.textContent = blobUrl ? '💾 下载 / Download' : '🔗 原图';
         footer.appendChild(label);
-        footer.appendChild(downloadLink);
+        footer.appendChild(a);
         card.appendChild(img);
         card.appendChild(footer);
         $outputGrid.appendChild(card);
       });
     }
+    $btnClearOutput.addEventListener('click', () => { $outputGrid.innerHTML = ''; $outputSection.style.display = 'none'; });
 
-    // ==================== 清空输出 ====================
-    $btnClearOutput.addEventListener('click', () => {
-      $outputGrid.innerHTML = '';
-      $outputSection.style.display = 'none';
-    });
-
-    // ==================== 辅助函数 ====================
     function showStatus(msg, type) {
       const div = document.createElement('div');
       div.className = 'msg msg-' + type;
       div.textContent = msg;
       $statusArea.innerHTML = '';
       $statusArea.appendChild(div);
-      if (type === 'success') {
-        setTimeout(() => { if ($statusArea.contains(div)) div.remove(); }, 6000);
-      }
+      if (type === 'success') setTimeout(() => { if ($statusArea.contains(div)) div.remove(); }, 6000);
     }
-
-    function setReady(ready, text) {
-      $statusDot.style.background = ready ? 'var(--success)' : 'var(--warning)';
-      $statusDot.style.animation = ready ? 'pulse 2s infinite' : 'none';
-      $statusText.textContent = text;
-    }
-
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64 = reader.result.split(',')[1];
-          resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
+    function setReady(r, t) {
+      $statusDot.style.background = r ? 'var(--success)' : 'var(--warning)';
+      $statusDot.style.animation = r ? 'pulse 2s infinite' : 'none';
+      $statusText.textContent = t;
     }
   </script>
 </body>
