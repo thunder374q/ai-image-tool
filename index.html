@@ -698,15 +698,29 @@
     });
 
     // ==================== 模型切换 ====================
-    $modelSelect.addEventListener('change', () => {
-      const model = $modelSelect.value;
-      if (model === 'edit-2511' || model === 'wan-i2v') {
+    // ==================== 模型切换时，自动显示/隐藏参考图区域 ====================
+    function modelNeedsRefImage(modelValue) {
+      const lower = modelValue.toLowerCase();
+      // 凡是名称里包含 edit、i2v、video、kontext、esrgan 等的，都需要参考图
+      return lower.includes('edit') ||
+             lower.includes('i2v') ||
+             lower.includes('video') ||
+             lower.includes('kontext') ||
+             lower.includes('esrgan');
+    }
+
+    function updateRefImageVisibility() {
+      if (modelNeedsRefImage($modelSelect.value)) {
         $refImageSection.style.display = 'block';
       } else {
         $refImageSection.style.display = 'none';
         $refImage.value = '';
       }
-    });
+    }
+
+    $modelSelect.addEventListener('change', updateRefImageVisibility);
+    // 页面刚加载完也执行一次，以防默认选中了需要参考图的模型
+    updateRefImageVisibility();
 
     // ==================== 分辨率选择 ====================
     $resolutionGrid.addEventListener('click', (e) => {
