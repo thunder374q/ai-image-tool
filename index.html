@@ -352,6 +352,12 @@
       if ($editImage2.files[0]) formData.append('image2', $editImage2.files[0]);
 
       console.log('📤 请求:', clean + endpoint);
+      // 打印 FormData 内容（调试用）
+      const formEntries = [];
+      for (const [k, v] of formData.entries()) {
+        formEntries.push(k + '=' + (v instanceof File ? 'FILE:' + v.name : v));
+      }
+      console.log('📤 FormData 内容:', formEntries.join(', '));
       const resp = await fetch(clean + endpoint, {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + apiKey },
@@ -371,7 +377,7 @@
         showStatus('⏳ 任务处理中，请稍候...', 'loading');
 
         let taskData = null;
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 180; i++) {
           await new Promise(r => setTimeout(r, 5000));
           try {
             const taskResp = await fetch(taskUrl, {
