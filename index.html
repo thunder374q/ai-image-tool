@@ -364,10 +364,13 @@
       }
       const data = await resp.json();
 
-      // ---------- 新增：异步任务轮询（无条件版） ----------
+      // ---------- 新增：异步任务轮询（终极修复版） ----------
+      // 1. 无条件打印原始返回，看看服务器到底回了什么
+      console.log('📥 原始返回 data:', JSON.stringify(data));
+
+      // 2. 只要有 'get' 字段，我们就认为是异步任务，强制进入轮询。忽略 data.data 和 data.images。
       if (data.get) {
         const taskUrl = data.get;
-        console.log('⏳ 异步任务，原始 data:', JSON.stringify(data).substring(0, 300));
         console.log('⏳ 异步任务，开始轮询:', taskUrl);
         showStatus('⏳ 任务处理中，请稍候...', 'loading');
 
@@ -379,7 +382,9 @@
               headers: { 'Authorization': 'Bearer ' + apiKey },
             });
             const taskJson = await taskResp.json();
-            console.log('🔄 轮询 #' + (i + 1) + ':', taskJson.status);
+            // 3. 详细打印每次轮询的完整结果，状态码和响应体都要看
+            console.log(`🔄 轮询 #${i + 1}`, 'status:', taskResp.status, 'body:', JSON.stringify(taskJson));
+            
             if (taskJson.status === 'success') {
               taskData = taskJson;
               break;
@@ -395,12 +400,21 @@
         if (!taskData || (!taskData.output && !taskData.results)) {
           throw new Error('任务超时，请重试');
         }
+
+        // 用轮询到的最终结果替换掉最初那个 waiting 的 data
         data = taskData;
+        console.log('✅ 任务完成，最终结果:', JSON.stringify(data));
+      } else if (data.url || data.b64_json) {
+          // 如果不是异步任务，并且已经有结果了，直接返回
+          console.log('✅ 同步返回结果');
+      } else {
+          // 既不是异步任务，也没有结果，那就是出错了
+          console.error('❌ 未知的API返回格式:', JSON.stringify(data));
+          throw new Error('API返回了未知格式，请查看控制台');
       }
       // ---------- 轮询结束 ----------
 
-      console.log('📥 最终返回:', JSON.stringify(data).substring(0, 500));
-
+      // 从最终结果里提取图片
       if (data.output && data.output.file_url) return [{ url: data.output.file_url }];
       if (data.results) {
         return data.results.map(r => ({ url: r.url || r.file_url || r.b64_json || r }));
