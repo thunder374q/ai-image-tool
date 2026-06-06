@@ -364,64 +364,64 @@
       }
       const data = await resp.json();
 
-      // ---------- 新增：异步任务轮询 ----------
-      let finalData = data;
-      if (finalData.get && !finalData.data && !finalData.images) {
-        const taskUrl = finalData.get;
+      // ---------- 新增：异步任务轮询（彻底修复版） ----------
+      if (data.get && !data.data && !data.images) {
+        const taskUrl = data.get;
         console.log('⏳ 异步任务，开始轮询:', taskUrl);
         showStatus('⏳ 任务处理中，请稍候...', 'loading');
 
+        let taskData = null;
         for (let i = 0; i < 60; i++) {
           await new Promise(r => setTimeout(r, 5000));
           try {
-            const taskResp = await fetch(clean + '/api/task/' + taskUrl.split('/task/')[1], {
+            // 直接用原始的 taskUrl 请求，不拼接任何东西
+            const taskResp = await fetch(taskUrl, {
               headers: { 'Authorization': 'Bearer ' + apiKey },
             });
             const taskJson = await taskResp.json();
-            console.log('🔄 轮询 #' + (i + 1) + ':', taskJson.status || taskJson);
+            console.log('🔄 轮询 #' + (i + 1) + ':', taskJson.status);
+            
             if (taskJson.status === 'success') {
-              finalData = taskJson;
+              taskData = taskJson;
               break;
             }
             if (taskJson.status === 'failed' || taskJson.error) {
               throw new Error(taskJson.message || '任务失败');
             }
           } catch (e) {
-            console.warn('轮询出错:', e.message);
+            // 如果这次查询本身抛错了（比如网络波动），我们不要跳出循环，继续等下一次
+            console.warn('⚠️ 本次轮询出错，将继续尝试:', e.message);
           }
         }
 
-        if (!finalData.output && !finalData.results && !finalData.url) {
+        if (!taskData || (!taskData.output && !taskData.results)) {
           throw new Error('任务超时，请重试');
         }
+
+        // 用 taskData 替换掉 data
+        data = taskData;
       }
       // ---------- 轮询结束 ----------
 
-      console.log('📥 返回:', typeof finalData === 'string' ? finalData.substring(0, 500) : JSON.stringify(finalData).substring(0, 500));
+      console.log('📥 最终返回:', JSON.stringify(data).substring(0, 400));
 
-      // 统一从各种返回格式中提取图片 URL
-      const collected = [];
-      if (finalData.output?.file_url) collected.push({ url: finalData.output.file_url });
-      if (finalData.data && Array.isArray(finalData.data)) {
-        for (const item of finalData.data) {
-          if (typeof item === 'string') collected.push({ url: item });
-          else if (item.url) collected.push({ url: item.url });
-          else if (item.b64_json) collected.push({ b64_json: item.b64_json });
-          else if (item.file_url) collected.push({ url: item.file_url });
-          else collected.push(item);
-        }
+      // 从各种可能的返回格式中提取图片 URL/B64
+      if (data.output && data.output.file_url) {
+        return [{ url: data.output.file_url }];
       }
-      if (finalData.images && Array.isArray(finalData.images)) {
-        for (const item of finalData.images) {
-          if (typeof item === 'string') collected.push({ url: item });
-          else if (item.url) collected.push({ url: item.url });
-          else if (item.b64_json) collected.push({ b64_json: item.b64_json });
-        }
+      if (data.results) {
+        return data.results.map(r => ({
+          url: r.url || r.file_url || r.b64_json || r
+        }));
       }
-      if (collected.length > 0) return collected;
-      if (finalData.url) return [{ url: finalData.url }];
-      if (finalData.b64_json) return [{ b64_json: finalData.b64_json }];
-      return [finalData];
+      if (data.data && Array.isArray(data.data)) {
+        return data.data.map(i => ({
+          url: i.url || i.file_url || i.b64_json || i
+        }));
+      }
+      if (data.url) return [{ url: data.url }];
+      if (data.b64_json) return [{ b64_json: data.b64_json }];
+      return [data];
     }
 
     // ==================== 结果 ====================
