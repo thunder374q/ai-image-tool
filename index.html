@@ -364,9 +364,10 @@
       }
       const data = await resp.json();
 
-      // ---------- 新增：异步任务轮询（彻底修复版） ----------
-      if (data.get && !data.data && !data.images) {
+      // ---------- 新增：异步任务轮询（无条件版） ----------
+      if (data.get) {
         const taskUrl = data.get;
+        console.log('⏳ 异步任务，原始 data:', JSON.stringify(data).substring(0, 300));
         console.log('⏳ 异步任务，开始轮询:', taskUrl);
         showStatus('⏳ 任务处理中，请稍候...', 'loading');
 
@@ -374,13 +375,11 @@
         for (let i = 0; i < 60; i++) {
           await new Promise(r => setTimeout(r, 5000));
           try {
-            // 直接用原始的 taskUrl 请求，不拼接任何东西
             const taskResp = await fetch(taskUrl, {
               headers: { 'Authorization': 'Bearer ' + apiKey },
             });
             const taskJson = await taskResp.json();
             console.log('🔄 轮询 #' + (i + 1) + ':', taskJson.status);
-            
             if (taskJson.status === 'success') {
               taskData = taskJson;
               break;
@@ -389,35 +388,25 @@
               throw new Error(taskJson.message || '任务失败');
             }
           } catch (e) {
-            // 如果这次查询本身抛错了（比如网络波动），我们不要跳出循环，继续等下一次
-            console.warn('⚠️ 本次轮询出错，将继续尝试:', e.message);
+            console.warn('⚠️ 本次轮询出错:', e.message);
           }
         }
 
         if (!taskData || (!taskData.output && !taskData.results)) {
           throw new Error('任务超时，请重试');
         }
-
-        // 用 taskData 替换掉 data
         data = taskData;
       }
       // ---------- 轮询结束 ----------
 
-      console.log('📥 最终返回:', JSON.stringify(data).substring(0, 400));
+      console.log('📥 最终返回:', JSON.stringify(data).substring(0, 500));
 
-      // 从各种可能的返回格式中提取图片 URL/B64
-      if (data.output && data.output.file_url) {
-        return [{ url: data.output.file_url }];
-      }
+      if (data.output && data.output.file_url) return [{ url: data.output.file_url }];
       if (data.results) {
-        return data.results.map(r => ({
-          url: r.url || r.file_url || r.b64_json || r
-        }));
+        return data.results.map(r => ({ url: r.url || r.file_url || r.b64_json || r }));
       }
       if (data.data && Array.isArray(data.data)) {
-        return data.data.map(i => ({
-          url: i.url || i.file_url || i.b64_json || i
-        }));
+        return data.data.map(i => ({ url: i.url || i.file_url || i.b64_json || i }));
       }
       if (data.url) return [{ url: data.url }];
       if (data.b64_json) return [{ b64_json: data.b64_json }];
