@@ -371,13 +371,13 @@
         showStatus('⏳ 任务处理中，请稍候...', 'loading');
 
         let taskData;
-        for (let i = 0; i < 60; i++) {  // 最多等 5 分钟（60 × 5 秒）
-          await new Promise(r => setTimeout(r, 5000));  // 每 5 秒查一次
+        for (let i = 0; i < 60; i++) {
+          await new Promise(r => setTimeout(r, 5000));
           const taskResp = await fetch(clean + taskUrl.replace('https://moark.com', ''), {
             headers: { 'Authorization': 'Bearer ' + apiKey },
           });
           taskData = await taskResp.json();
-          console.log(`🔄 轮询 #${i + 1}:`, taskData.status);
+          console.log(`🔄 轮询 #${i + 1}:`, taskData.status, JSON.stringify(taskData).substring(0, 200));
           if (taskData.status === 'success') break;
           if (taskData.status === 'failed' || taskData.error) {
             throw new Error(taskData.message || '任务失败');
@@ -388,22 +388,35 @@
           throw new Error('任务超时，请重试');
         }
 
-        // 把异步结果转成统一格式
-        if (taskData.output?.file_url) {
-          data.data = [{ url: taskData.output.file_url }];
-        } else if (taskData.results) {
-          data.data = taskData.results.map(r => ({ url: r.url || r.file_url || r }));
-        }
+        // 直接把整个 taskData 当作 data 来用
+        data = taskData;
       }
       // ---------- 轮询结束 ----------
 
-      console.log('📥 返回:', data);
-      if (data.data && Array.isArray(data.data)) return data.data.map(i => i.url ? { url: i.url } : i.b64_json ? { b64_json: i.b64_json } : i);
-      if (data.images && Array.isArray(data.images)) return data.images.map(i => typeof i === 'string' ? { url: i } : i);
-      if (Array.isArray(data)) return data.map(i => typeof i === 'string' ? { url: i } : i);
+      console.log('📥 返回:', JSON.stringify(data).substring(0, 500));
+
+      // 统一从各种返回格式中提取图片 URL
+      const collected = [];
+      if (data.data && Array.isArray(data.data)) {
+        for (const item of data.data) {
+          if (typeof item === 'string') collected.push({ url: item });
+          else if (item.url) collected.push({ url: item.url });
+          else if (item.b64_json) collected.push({ b64_json: item.b64_json });
+          else if (item.file_url) collected.push({ url: item.file_url });
+          else collected.push(item);
+        }
+      }
+      if (data.output?.file_url) collected.push({ url: data.output.file_url });
+      if (data.images && Array.isArray(data.images)) {
+        for (const item of data.images) {
+          if (typeof item === 'string') collected.push({ url: item });
+          else if (item.url) collected.push({ url: item.url });
+          else if (item.b64_json) collected.push({ b64_json: item.b64_json });
+        }
+      }
+      if (collected.length > 0) return collected;
       if (data.url) return [{ url: data.url }];
       if (data.b64_json) return [{ b64_json: data.b64_json }];
-      if (data.output?.file_url) return [{ url: data.output.file_url }];
       return [data];
     }
 
