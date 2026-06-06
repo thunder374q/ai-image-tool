@@ -784,8 +784,9 @@
       // 根据模力方舟实际需求，使用 width/height 而非 size
       if (size && size.includes('x')) {
         const [width, height] = size.split('x');
-        payload.width = parseInt(width);
-        payload.height = parseInt(height);
+        // 平台限制最高 1024，超过自动截断
+        payload.width = Math.min(parseInt(width), 1024);
+        payload.height = Math.min(parseInt(height), 1024);
       }
 
       if (negativePrompt) {
@@ -796,10 +797,14 @@
         payload.seed = parseInt(seedVal);
       }
 
+      // 有参考图时，自动传递图片和指令
       if ($refImage.files[0]) {
         payload.image = await fileToBase64($refImage.files[0]);
-        if (model === 'edit-2511') {
-          payload.instruction = prompt;
+        // 所有编辑/视频/Kontext/ESRGAN 模型，都将提示词作为 instruction 传递
+        const m = model.toLowerCase();
+        if (m.includes('edit') || m.includes('i2v') || m.includes('video') || 
+            m.includes('kontext') || m.includes('esrgan') || m.includes('seedvr')) {
+          if (prompt) payload.instruction = prompt;
         }
       }
 
@@ -841,7 +846,7 @@
       if (data.images && Array.isArray(data.images)) {
         return data.images.map(item => {
           if (typeof item === 'string') return { url: item };
-          if (item.url) return { url: item.url };
+          if (item.url) return { item.url: item.url };
           if (item.b64_json) return { b64_json: item.b64_json };
           return item;
         });
@@ -854,7 +859,6 @@
           return item;
         });
       }
-      // 如果直接返回了 url 或 b64_json
       if (data.url) return [{ url: data.url }];
       if (data.b64_json) return [{ b64_json: data.b64_json }];
       return [data];
