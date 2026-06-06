@@ -500,11 +500,29 @@
       <!-- 模型选择 -->
       <label for="modelSelect">🎯 模型 / Model</label>
       <select id="modelSelect" style="margin-bottom: 16px;">
-  <option value="FLUX.1-dev">FLUX.1-dev（写实摄影 / Photorealistic）</option>
-  <option value="FLUX.1-schnell">FLUX.1-schnell（快速写实）</option>
-  <option value="stable-diffusion-xl-base-1.0">SDXL（通用高质量）</option>
-  <option value="Kolors">Kolors（中文理解好）</option>
-  <option value="z-image">z-image（轻量，不推荐复杂图）</option>
+  <optgroup label="🖼️ 写实图像生成">
+    <option value="FLUX.1-dev">FLUX.1-dev（写实摄影 / Photorealistic）</option>
+    <option value="FLUX.1-schnell">FLUX.1-schnell（快速写实）</option>
+    <option value="stable-diffusion-3.5-large-turbo">SD3.5 Large Turbo（写实增强）</option>
+    <option value="stable-diffusion-xl-base-1.0">SDXL（通用高质量）</option>
+    <option value="Qwen-Image">Qwen-Image（阿里通义）</option>
+    <option value="HiDream-I1-Full">HiDream-I1-Full（新一代国产）</option>
+    <option value="Kolors">Kolors（中文理解好）</option>
+    <option value="DreamO">DreamO（创意生成）</option>
+    <option value="CogView4_6B">CogView4（智谱图像）</option>
+    <option value="z-image">z-image（轻量）</option>
+    <option value="z-image-turbo">z-image-turbo（轻量加速）</option>
+  </optgroup>
+  <optgroup label="✂️ 图像编辑">
+    <option value="Qwen-Image-Edit-2511">Qwen-Image-Edit-2511（图像编辑）</option>
+    <option value="Qwen-Image-Edit">Qwen-Image-Edit（图像编辑）</option>
+    <option value="LongCat-Image-Edit">LongCat-Image-Edit（图像编辑）</option>
+    <option value="FLUX.1-Kontext-dev">FLUX.1-Kontext-dev（上下文编辑）</option>
+  </optgroup>
+  <optgroup label="🎬 图生视频">
+    <option value="stable-diffusion-3-medium">SD3 Medium（图生视频）</option>
+    <option value="SeedVR2-3B">SeedVR2-3B（图生视频）</option>
+  </optgroup>
 </select>
 
       <!-- 图生图：参考图上传（仅编辑/视频模式显示） -->
