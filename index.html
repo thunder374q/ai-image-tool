@@ -345,11 +345,10 @@
       }
       if (prompt) {
   formData.append('prompt', prompt);
-  if (editMode) formData.append('instruction', prompt);
+  if (prompt) formData.append('prompt', prompt);
 }
       const refFile = $editImage1.files[0] || $refImage.files[0];
       if (refFile) formData.append('image', refFile);
-      if ($editImage2.files[0]) formData.append('image2', $editImage2.files[0]);
 
       console.log('📤 请求:', clean + endpoint);
       // 打印 FormData 内容（调试用）
